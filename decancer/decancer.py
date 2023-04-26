@@ -49,7 +49,7 @@ class Decancer(commands.Cog):
         """This cog does not store user data"""
         return
 
-    async def initialize(self):
+    async def cog_load(self):
         self.enabled_global = await self.config.auto()
         for guild_id, guild_data in (await self.config.all_guilds()).items():
             if guild_data["auto"]:
