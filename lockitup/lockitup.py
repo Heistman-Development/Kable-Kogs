@@ -3,6 +3,7 @@ import logging
 from typing import Union
 
 import discord
+from redbot.core.bot import Red
 from redbot.core import Config, checks, commands
 from redbot.core.commands import Greedy
 from redbot.core.utils.chat_formatting import pagify
@@ -13,8 +14,8 @@ from redbot.core.utils.menus import DEFAULT_CONTROLS, menu
 class LockItUp(commands.Cog):
     """Lockdown a list of channels, a channel, or the whole server."""
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, bot: Red):
+        self.bot: Red = bot
         self.config = Config.get_conf(self, identifier=3734879387937497)
 
         default_guild = {
@@ -191,7 +192,7 @@ class LockItUp(commands.Cog):
         except asyncio.TimeoutError:
             return await ctx.send("You took too long to reply!")
 
-        await ctx.trigger_typing()
+        await ctx.typing()
         nondefault_lock = await self.config.guild(guild).nondefault()
         if nondefault_lock is True:
             await self.secondary_lockdown(ctx, guild)
@@ -344,7 +345,7 @@ class LockItUp(commands.Cog):
         except asyncio.TimeoutError:
             return await ctx.send("You took too long to reply!")
 
-        await ctx.trigger_typing()
+        await ctx.typing()
         nondefault_lock = await self.config.guild(guild).nondefault()
         if nondefault_lock is True:
             await self.secondary_unlockdown(ctx, guild)
@@ -571,7 +572,7 @@ class LockItUp(commands.Cog):
                 description="Channel List: {}\n{}".format(chan_count, page),
                 colour=await ctx.embed_color(),
             )
-            embed.set_author(name=guild.name, icon_url=guild.icon_url)
+            embed.set_author(name=guild.name, icon_url=guild.icon.url)
             embed.set_footer(text="Lockdown Channel Settings")
             e_list.append(embed)
         await ctx.send("Added to the list, here's your current channels")
@@ -608,7 +609,7 @@ class LockItUp(commands.Cog):
                 description="Channel List: {}\n{}".format(chan_count, page),
                 colour=await ctx.embed_color(),
             )
-            embed.set_author(name=guild.name, icon_url=guild.icon_url)
+            embed.set_author(name=guild.name, icon_url=guild.icon.url)
             embed.set_footer(text="Secondary Channels")
             e_list.append(embed)
 
@@ -659,7 +660,7 @@ class LockItUp(commands.Cog):
                 description="Channel List: {}\n{}".format(chan_count, page),
                 colour=await ctx.embed_color(),
             )
-            embed.set_author(name=guild.name, icon_url=guild.icon_url)
+            embed.set_author(name=guild.name, icon_url=guild.icon.url)
             embed.set_footer(text="Lockdown Channel Sttings")
             e_list.append(embed)
         await ctx.send("Removed from the list, here's your current channels")
@@ -705,7 +706,7 @@ class LockItUp(commands.Cog):
                 description="Channel List: {}\n{}".format(chan_count, page),
                 colour=await ctx.embed_color(),
             )
-            embed.set_author(name=guild.name, icon_url=guild.icon_url)
+            embed.set_author(name=guild.name, icon_url=guild.icon.url)
             embed.set_footer(text="Lockdown Channel Sttings")
             e_list.append(embed)
         await ctx.send("Removed from the list, here's your current channels")
