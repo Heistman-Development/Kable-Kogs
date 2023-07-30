@@ -534,7 +534,7 @@ class LockItUp(commands.Cog):
                 value="**Enabled**" if check_silent else "**Disabled**",
                 inline=False,
             )
-            e.set_author(name=ctx.guild.name, icon_url=guild.icon_url)
+            e.set_author(name=ctx.guild.name, icon_url=guild.icon.url)
             e.set_footer(text="Lockdown Configuration")
             e_list.append(e)
 
